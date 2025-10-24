@@ -1,13 +1,8 @@
 from fastapi import FastAPI
+import Routers.Bus
 
-app = FastAPI()
+from db import create_tables
 
+app = FastAPI(lifespan=create_tables, title="API de Gestión de Buses", version="1.0.0")
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_helo(name: str):
-    return {"message": f"Hello {name}"}
+app.include_router(Routers.Bus.router)
